@@ -25,6 +25,25 @@ contract HealthDID {
         require(didOwnerAddress[_healthDID] != address(0), "DID already exists");
     }
 
+    function extractChainIdAndReturnUint(string memory did) public pure returns (uint) {
+        require(bytes(did).length == 44, "Invalid DID string length");
+
+        // Convert the string to bytes
+        bytes memory didBytes = bytes(did);
+
+        // Extract the first 6 characters as the chainId
+        bytes6 chainId;
+        assembly {
+            chainId := mload(add(didBytes, 32))
+        }
+
+        // Convert the chainId to a uint
+        uint chainIdUint = uint(chainId);
+
+        return chainIdUint;
+    }
+
+
     function stringToBytes32(string memory source) internal pure returns (bytes32 result) {
         bytes memory tempEmptyStringTest = bytes(source);
         if (tempEmptyStringTest.length == 0) {
