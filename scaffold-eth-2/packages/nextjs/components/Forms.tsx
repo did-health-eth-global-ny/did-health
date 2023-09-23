@@ -12,7 +12,7 @@ interface FormFieldProps {
   isDiabled?: boolean;
 }
 
-const FormFieldProps: React.FC<FormFieldProps> = ({
+const Forms: React.FC<FormFieldProps> = ({
   labelName,
   placeholder,
   inputType = "text",
@@ -55,4 +55,4 @@ const FormFieldProps: React.FC<FormFieldProps> = ({
   );
 };
 
-export default FormFieldProps;
+export default Forms;
