@@ -19,8 +19,8 @@ function contractCall(chainId: string): string {
     }
   
     // Extract the first 2 characters as chainId and the rest as randomString
-    const chainId = did.substring(0, 2);
-    const randomString = did.substring(2);
+    const chainId = did.substring(0, 6);
+    const randomString = did.substring(6);
   
     // Make a contract call based on the chainId
     const contractAddress = contractCall(chainId);
