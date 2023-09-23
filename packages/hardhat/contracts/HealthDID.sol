@@ -10,8 +10,8 @@ contract HealthDIDRegistry {
     mapping(string => address) private didOwnerAddressRegistry;
     mapping(address => Structs.HealthDID) public addressDidMapping;
 
-    modifier onlyOwner(address owner) {
-        require(msg.sender == owner, "Incorrect DID");
+    modifier onlyOwner(string memory _healthDid) {
+        require(msg.sender == didOwnerAddressRegistry[_healthDid], "You're not the owner of this DID");
         _;
     }
 
@@ -35,6 +35,23 @@ contract HealthDIDRegistry {
         addressDidMapping[msg.sender].reputationScore = 10;
 
         return true;
+    }
+
+    function updateDIDData(string memory _healthDid, string memory _uri) public {
+        require(didOwnerAddressRegistry[_healthDid] != address(0), "DID doesn't exists");
+        require(msg.sender == didOwnerAddressRegistry[_healthDid], "You're not the owner of this DID");
+        require(resolveChainId(_healthDid) == getChainID(), "Incorrect Chain Id in DID");
+
+        addressDidMapping[msg.sender].ipfsUri = _uri;
+    }
+
+    function addAltData(string memory _healthDid, string[] memory _uris) public {
+        require(msg.sender == didOwnerAddressRegistry[_healthDid], "You're not the owner of this DID");
+        require(resolveChainId(_healthDid) == getChainID(), "Incorrect Chain Id in DID");
+
+        for (uint256 i = 0; i < _uris.length; i++) {
+            addressDidMapping[msg.sender].altIpfsUris.push(_uris[i]);
+        }
     }
 
     function resolveChainId(string memory did) public pure returns (uint256) {
