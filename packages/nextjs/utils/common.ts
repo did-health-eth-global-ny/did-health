@@ -19,6 +19,8 @@ function contractCall(chainId: string): string {
     }
   
     // Extract the first 2 characters as chainId and the rest as randomString
+    //scroll chain id length = 6
+    //polygon chain id length = 5
     const chainId = did.substring(0, 6);
     const randomString = did.substring(6);
   
