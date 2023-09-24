@@ -5,9 +5,11 @@ import Forms from "../components/Forms";
 import SelectForms from "../components/SelectForm";
 import FhirEditor from "../components/fhir-editor/FhirEditor";
 import resorse from "../data/fhir/profiles-resources.json";
+import { useScaffoldContractWrite } from "../hooks/scaffold-eth";
 import { makeStorageClient } from "../hooks/useIpfs";
 import { FHIRPatient } from "../types/abitype/fhir";
 import createFHIRPatient from "../utils/scaffold-eth/createJson";
+import { ca } from "date-fns/locale";
 import { v4 } from "uuid";
 import { useAccount, useNetwork } from "wagmi";
 
@@ -30,10 +32,16 @@ function CreateProfile() {
   const account = useAccount();
   console.log("account", account);
   const { chain, chains } = useNetwork();
+  const chainId = chain?.id;
+  let chainIdString = "";
+  if (chainId && chainId < 100000) {
+    chainIdString = String(chainId).padStart(6, "0");
+  }
   console.log("chain", chain);
   console.log("chains", chains);
 
   const [hasCreatedProfile, setHasCreatedProfile] = useState(false);
+  const [uri, setUri] = useState("");
 
   const [patient, setPatient] = useState<FHIRPatient | null>(
     createFHIRPatient(
@@ -135,14 +143,27 @@ function CreateProfile() {
     console.log("uri:", uri);
 
     setHasCreatedProfile(true);
-
+    setUri(uri);
     return uri;
   };
+
+  const { writeAsync, isLoading } = useScaffoldContractWrite({
+    contractName: "HealthDIDRegistry",
+    functionName: "registerDID",
+    // args: [chainId + (patient?.did ?? ""), uri],
+    args: [chainIdString + (patient?.did ?? ""), uri],
+    blockConfirmations: 10,
+    onBlockConfirmation: txnReceipt => {
+      console.log("📦 Transaction blockHash", txnReceipt.blockHash);
+    },
+  });
+  console.log("chainId", chainId);
+  console.log("patient?.did", patient?.did);
+  console.log("uri", uri);
 
   return (
     <div className="flex items-center justify-center p-12">
       <div className="bg-white flex justify-center items-center flex-col rounded-[10px] sm:p-10 p-4 md:w-3/4">
-        {/* {isLoading && <Loader />} */}
         <p className="font-bold font-epilogue text-[32px]">Create Profile</p>
         <form onSubmit={handleSubmit} className="w-full flex flex-col gap-[30px]">
           <div>
@@ -213,7 +234,7 @@ function CreateProfile() {
             />
           </div>
           <div className="flex justify-center items-center">
-            {!hasCreatedProfile ? (
+            {!hasCreatedProfile && !uri ? (
               <Button
                 btnType="submit"
                 title="Create a Profile"
@@ -228,7 +249,7 @@ function CreateProfile() {
                 title="Register DID"
                 styles="bg-[#3a3a43] text-white"
                 handleClick={() => {
-                  handleSubmit;
+                  writeAsync();
                 }}
               />
             )}
