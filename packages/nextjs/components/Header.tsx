@@ -116,7 +116,7 @@ export const Header = () => {
         ) : (
           <CustomButton btnType="button" title="WorldID Connected!" styles="bg-gray-100 text-black" />
         )}
-        {/* <RainbowKitCustomConnectButton /> */}
+        
 
         <ConnectButton />
         <FaucetButton />
