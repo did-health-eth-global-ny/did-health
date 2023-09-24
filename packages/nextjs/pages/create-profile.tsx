@@ -2,13 +2,13 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import Button from "../components/Button";
 import Forms from "../components/Forms";
+import SelectForms from "../components/SelectForm";
 import FhirEditor from "../components/fhir-editor/FhirEditor";
 import resorse from "../data/fhir/profiles-resources.json";
+import { makeStorageClient } from "../hooks/useIpfs";
 import { FHIRPatient } from "../types/abitype/fhir";
 import createFHIRPatient from "../utils/scaffold-eth/createJson";
-import { json } from "@helia/json";
-import { createHelia } from "helia";
-import SelectForms from "~~/components/SelectForm";
+import { v4 } from "uuid";
 
 const IdentifierOption = [
   { label: "license", value: "license" },
@@ -44,7 +44,7 @@ function CreateProfile() {
       "1990-01-01",
     ),
   );
-  console.log("patient:", patient);
+
   const handleStateChange = (fieldName: string, nestedField?: string, index?: number) => (e: any) => {
     console.log(e.target);
 
@@ -79,6 +79,15 @@ function CreateProfile() {
       return newState;
     });
   };
+  const downloadJson = (object: any, filename: string) => {
+    const blob = new Blob([JSON.stringify(object)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -98,56 +107,16 @@ function CreateProfile() {
       patient?.gender ?? "unknown", // Add null check for patient?.gender
       patient?.birthDate ?? "",
     );
-    const helia = await createHelia();
-    const j = json(helia);
-    const address = await j.add(PatientJson);
-    const cid = await j.get(address);
-    console.log("PatientJson:", PatientJson);
-    console.log("cid:", cid);
+    downloadJson(PatientJson, "patient.json");
+    const blob = new Blob([JSON.stringify(PatientJson)], { type: "application/json" });
+    const files = [new File([blob], "plain-utf8.txt)"), new File([blob], "patient.json")];
+    console.log("files:", files);
+
+    const client = makeStorageClient();
+    const cid = await client.put(files);
+    console.log("stored files with cid:", cid);
     return cid;
   };
-
-  // const addLink = () => {
-  //   setFormState((prevState: any) => ({
-  //     ...prevState,
-  //     Links: [...prevState.Links, ""],
-  //   }));
-  // };
-
-  // const removeLink = (index: number) => {
-  //   const updatedLinks = formState.Links.filter((_, i) => i !== index);
-  //   setFormState(prevState => ({ ...prevState, Links: updatedLinks }));
-  // };
-
-  // const updateLink = (index: number, value: string) => {
-  //   const updatedLinks: any = [...formState.Links];
-  //   updatedLinks[index] = value;
-  //   setFormState(prevState => ({ ...prevState, Links: updatedLinks }));
-  // };
-  const bundle = resorse as fhir4.Bundle;
-
-  // const [StructureDefinition, setStructureDefinition] = useState<any>(null);
-  // useEffect(() => {
-  //   const parseData = async () => {
-  //     try {
-  //       const entry: any = bundle.entry;
-  //       if (entry.length === 0) return;
-  //       if (!bundle.hasOwnProperty("entry")) return;
-  //       // const patientStructureDefinition = bundle.hasOwnProperty("entry");
-  //       const patientStructureDefinition = entry.filter(
-  //         (item: any) =>
-  //           item.resource && item.resource.resourceType === "StructureDefinition" && item.resource.id === "Patient",
-  //       );
-
-  //       setStructureDefinition(patientStructureDefinition);
-  //       console.log("patientStructureDefinition:", patientStructureDefinition);
-  //       console.log("structureDefinition:", StructureDefinition);
-  //     } catch (e) {
-  //       console.log(e);
-  //     }
-  //   };
-  //   parseData();
-  // }, [bundle]);
 
   return (
     <div className="flex items-center justify-center p-12">
@@ -211,46 +180,6 @@ function CreateProfile() {
               value={patient?.telecom?.[0].value}
             />
           </div>
-
-          {/* <div>
-            <p className="font-epilogue font-medium text-[14px] leading-[22px] text-[#808191] mb-[10px]">
-              Add related links
-            </p>
-            {formState.Links.map((link, index) => (
-              <div key={index} className="flex items-center space-x-2 mb-4">
-                <Forms
-                  inputType="url"
-                  placeholder="Enter link URL"
-                  handleChange={e => updateLink(index, e.target.value)}
-                  value={link}
-                />
-                <Button
-                  btnType="button"
-                  title="Remove"
-                  styles="bg-red-500 text-white"
-                  handleClick={() => removeLink(index)}
-                >
-                  Remove
-                </Button>
-              </div>
-            ))}
-
-            <Button btnType="button" title="Add Link" styles="bg-[#3a3a43] text-white" handleClick={addLink}>
-              Add Link
-            </Button>
-          </div> */}
-          {/* 
-          <div>
-						{StructureDefinition && (
-              <FhirEditor
-                structureDefinitionId="Patient"
-                structureDefinitionBundle={StructureDefinition}
-                data={data}
-                updateData={setData}
-              />
-            )} 
-          </div>
-						*/}
           <div className="flex justify-center items-center">
             <Button
               btnType="submit"
