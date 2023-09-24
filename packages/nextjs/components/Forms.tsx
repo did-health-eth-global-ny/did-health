@@ -5,7 +5,7 @@ interface FormFieldProps {
   placeholder: string;
   inputType?: string;
   isTextArea?: boolean;
-  value: string | number;
+  value: any;
   row?: number;
   handleChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   handleTextChange?: (e: ChangeEvent<HTMLTextAreaElement>) => void;
