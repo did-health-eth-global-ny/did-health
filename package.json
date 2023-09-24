@@ -38,6 +38,7 @@
   },
   "dependencies": {
     "@mui/material": "^5.14.10",
-    "@types/fhir": "^0.0.37"
+    "@types/fhir": "^0.0.37",
+    "@xmtp/xmtp-js": "^11.0.0"
   }
 }
