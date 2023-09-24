@@ -7,7 +7,7 @@ export type FHIRPatient = {
   }[];
   name?: {
     family: string;
-    given: string[];
+    given: string;
   }[];
   telecom?: {
     system: "phone" | "email" | string;

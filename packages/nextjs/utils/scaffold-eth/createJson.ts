@@ -19,7 +19,7 @@ const createFHIRPatient = (
   return {
     resourceType: "Patient",
     identifier: [{ value: identifierValue }],
-    name: [{ family: familyName, given: [givenName] }],
+    name: [{ family: familyName, given: givenName }],
     telecom: [
       { system: "email", value: email },
       { system: "phone", value: phone },
