@@ -109,14 +109,13 @@ export const Header = () => {
         {!session ? (
           <CustomButton
             btnType="button"
-            title="Sign In with Worldcoin"
+            title="Connect WorldID"
             styles="bg-gray-100 text-black"
             handleClick={() => signIn("worldcoin")}
           />
         ) : (
           <CustomButton btnType="button" title="WorldID Connected!" styles="bg-gray-100 text-black" />
         )}
-        
 
         <ConnectButton />
         <FaucetButton />
