@@ -6,7 +6,7 @@ type ListStyleWrapperProps = {
   borderColor?: string;
 };
 
-export default function ListStyleWrapper({ children, borderColor = "rgb(230,230,230)" }: ListStyleWrapperProps) {
+export default function ListStyleWrapper({ children }: ListStyleWrapperProps) {
   const primaryColor = "#FFD54F";
   const accentColor = "#90CAF9";
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ElementPropertyPicker from "./ElementPropertyPicker";
-import PropertyListRenderer from "./PropertyListRenderer";
+import PropertyListRenderer from "./PropertyListRenderer.1";
 import PropertyRenderer from "./PropertyRenderer";
 // import last from 'lodash/last'
 import { buildResourceDefintions, getResourceDefintionAtPath, makeResourcePath } from "./resourceDefintionBuilder";

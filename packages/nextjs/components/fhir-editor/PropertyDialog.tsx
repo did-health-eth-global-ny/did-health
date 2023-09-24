@@ -33,9 +33,9 @@ export default function PropertyMetaDialog({ isOpen, onToggleOpen, elementDefini
   //   onToggleOpen();
   // };
 
-  const handleSelectTemplateId = (templateId: string) => {
-    onToggleOpen();
-  };
+  // const handleSelectTemplateId = (templateId: string) => {
+  //   onToggleOpen();
+  // };
 
   return (
     <Dialog open={isOpen} fullWidth maxWidth="md" onClose={onToggleOpen} keepMounted={false}>

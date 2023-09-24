@@ -22,6 +22,7 @@ export default function PropertyListRenderer({ fhirData, updateFhirData, propert
 
     const propertyFhir = fhirData[property.propertyName];
 
+    /* eslint-disable */
     const updateInnerProperty = (value: any) => {
       const nextFhirData = { ...fhirData };
       if (value === undefined) {
@@ -33,34 +34,11 @@ export default function PropertyListRenderer({ fhirData, updateFhirData, propert
     };
 
     return (
-      <li>
-        <PropertyRenderer
-          key={property.propertyName}
-          property={property}
-          fhirData={propertyFhir}
-          updateFhirData={updateInnerProperty}
-        />
+      <li key={property.propertyName}>
+        <PropertyRenderer property={property} fhirData={propertyFhir} updateFhirData={updateInnerProperty} />
       </li>
     );
   });
-
-  return (
-    <Box>
-      <ListStyleWrapper>
-        {propertyViews}
-
-        <Box component="li">
-          <Box sx={{ paddingTop: "7px" }}>
-            <ElementPropertyPicker
-              properties={properties}
-              existingKeys={existingKeys}
-              updateFhirData={updateFhirData}
-              fhirData={fhirData}
-              isSmall
-            />
-          </Box>
-        </Box>
-      </ListStyleWrapper>
-    </Box>
-  );
 }
+
+/* eslint-disable */

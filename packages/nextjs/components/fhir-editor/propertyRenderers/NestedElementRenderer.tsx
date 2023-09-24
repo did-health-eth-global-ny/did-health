@@ -1,7 +1,7 @@
 import React from "react";
-import PropertyListRenderer from "../PropertyListRenderer";
-import { getResourceDefintionAtPath } from "../resourceDefintionBuilder";
-import { NestedElementProperty, ResourceDefinitions } from "../types";
+import PropertyListRenderer from "../PropertyListRenderer.1";
+// import { getResourceDefintionAtPath } from "../resourceDefintionBuilder";
+import { NestedElementProperty } from "../types";
 import Box from "@mui/material/Box";
 
 type NestedElementRendererProps = {

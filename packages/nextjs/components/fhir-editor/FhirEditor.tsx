@@ -1,10 +1,10 @@
-import React, { createContext, useState } from "react";
-import ElementPropertyPicker from "./ElementPropertyPicker";
-import PropertyRenderer from "./PropertyRenderer";
+import React, { createContext } from "react";
+// import ElementPropertyPicker from "./ElementPropertyPicker";
+// import PropertyRenderer from "./PropertyRenderer";
 import ResourceRenderer from "./ResourceRenderer";
 // import LocalizationProvider from '@mui/lab/LocalizationProvider';
 // import last from 'lodash/last'
-import { buildResourceDefintions, getNameFromPath, getResourceDefintionAtPath } from "./resourceDefintionBuilder";
+import { buildResourceDefintions, getNameFromPath } from "./resourceDefintionBuilder";
 import { ResourceDefinitions } from "./types";
 import Box from "@mui/material/Box";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
@@ -13,7 +13,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 export type ComponentOverrides = Record<string, (value: any, updateValue: (data: any) => void) => React.ReactNode>;
 
 type FhirEditorProps = {
-  // structureDefintion: fhir4.StructureDefinition;
+  structureDefintion: fhir4.StructureDefinition;
   structureDefinitionId: string;
   structureDefinitionBundle: fhir4.Bundle;
   data: any;
@@ -31,7 +31,7 @@ export const FhirEditorContext = createContext<{
 });
 
 export default function FhirEditor({
-  // structureDefintion,
+  structureDefintion,
   structureDefinitionId,
   structureDefinitionBundle,
   data,
