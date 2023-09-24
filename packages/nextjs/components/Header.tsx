@@ -1,9 +1,12 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import CustomButton from "./Button";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { Bars3Icon, BugAntIcon, MagnifyingGlassIcon, SparklesIcon } from "@heroicons/react/24/outline";
-import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
+import { FaucetButton } from "~~/components/scaffold-eth";
 import { useOutsideClick } from "~~/hooks/scaffold-eth";
 
 const NavLink = ({ href, children }: { href: string; children: React.ReactNode }) => {
@@ -26,9 +29,15 @@ const NavLink = ({ href, children }: { href: string; children: React.ReactNode }
 /**
  * Site header
  */
+
 export const Header = () => {
+  const [isWorldID, setIsWorldID] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const burgerMenuRef = useRef<HTMLDivElement>(null);
+  const { data: session } = useSession();
+  if (session) {
+    console.log(session);
+  }
   useOutsideClick(
     burgerMenuRef,
     useCallback(() => setIsDrawerOpen(false), []),
@@ -90,14 +99,26 @@ export const Header = () => {
             <Image alt="SE2 logo" className="cursor-pointer" fill src="/logo.svg" />
           </div>
           <div className="flex flex-col">
-            <span className="font-bold leading-tight">Scaffold-ETH</span>
-            <span className="text-xs">Ethereum dev stack</span>
+            <span className="font-bold leading-tight">DID Health</span>
+            <span className="text-xs">Identity for health care</span>
           </div>
         </Link>
         <ul className="hidden lg:flex lg:flex-nowrap menu menu-horizontal px-1 gap-2">{navLinks}</ul>
       </div>
-      <div className="navbar-end flex-grow mr-4">
-        <RainbowKitCustomConnectButton />
+      <div className="navbar-end flex-grow mr-4 gap-2">
+        {!session ? (
+          <CustomButton
+            btnType="button"
+            title="Sign In with Worldcoin"
+            styles="bg-gray-100 text-black"
+            handleClick={() => signIn("worldcoin")}
+          />
+        ) : (
+          <CustomButton btnType="button" title="WorldID Connected!" styles="bg-gray-100 text-black" />
+        )}
+        {/* <RainbowKitCustomConnectButton /> */}
+
+        <ConnectButton />
         <FaucetButton />
       </div>
     </div>
