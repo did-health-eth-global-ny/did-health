@@ -3,13 +3,10 @@ import { useState } from "react";
 import Button from "../components/Button";
 import Forms from "../components/Forms";
 import SelectForms from "../components/SelectForm";
-import FhirEditor from "../components/fhir-editor/FhirEditor";
-import resorse from "../data/fhir/profiles-resources.json";
 import { useScaffoldContractWrite } from "../hooks/scaffold-eth";
 import { makeStorageClient } from "../hooks/useIpfs";
 import { FHIRPatient } from "../types/abitype/fhir";
 import createFHIRPatient from "../utils/scaffold-eth/createJson";
-import { ca } from "date-fns/locale";
 import { v4 } from "uuid";
 import { useAccount, useNetwork } from "wagmi";
 
@@ -162,7 +159,7 @@ function CreateProfile() {
   console.log("uri", uri);
 
   return (
-    <div className="flex items-center justify-center p-12">
+    <div className="flex items-center justify-center p-10">
       <div className="bg-white flex justify-center items-center flex-col rounded-[10px] sm:p-10 p-4 md:w-3/4">
         <p className="font-bold font-epilogue text-[32px]">Create Profile</p>
         <form onSubmit={handleSubmit} className="w-full flex flex-col gap-[30px]">
@@ -178,6 +175,13 @@ function CreateProfile() {
           </div>
 
           <div className="flex flex-wrap gap-[40px]">
+            <SelectForms
+              options={GenderOption}
+              labelName="Gender"
+              placeholder="Select gender"
+              onChange={handleStateChange("gender")}
+              selectedValue={patient?.gender}
+            />
             <Forms
               labelName="First Name"
               inputType="text"
@@ -192,13 +196,6 @@ function CreateProfile() {
               placeholder="Last Name"
               handleChange={e => handleStateChange("name", "family", 0)(e)}
               value={patient?.name?.[0].family}
-            />
-            <SelectForms
-              options={GenderOption}
-              labelName="Gender"
-              placeholder="Select gender"
-              onChange={handleStateChange("gender")}
-              selectedValue={patient?.gender}
             />
           </div>
           <div className="flex flex-wrap gap-[40px]">

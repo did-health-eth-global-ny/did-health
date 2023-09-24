@@ -1,6 +1,7 @@
 # folders
 .next
 node_modules/
+components-2/
 # files
 **/*.less
 **/*.css

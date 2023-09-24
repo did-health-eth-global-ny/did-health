@@ -39,6 +39,12 @@ const Home: NextPage = () => {
                 <p>1. Connect/Create wallet and create profile</p>
               </div>
             </Link>
+            <Link href="/">
+              <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl shadow-lg">
+                <BugAntIcon className="h-8 w-8 fill-secondary" />
+                <p>Share your HealthCare data with did:health(soon)</p>
+              </div>
+            </Link>
           </div>
         </div>
       </div>
