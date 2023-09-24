@@ -19,7 +19,19 @@ const configuredNetwork = getTargetNetwork();
 const { onlyLocalBurnerWallet } = scaffoldConfig;
 
 // We always want to have mainnet enabled (ENS resolution, ETH price, etc). But only once.
-const enabledChains = configuredNetwork.id === 1 ? [configuredNetwork] : [configuredNetwork, chains.mainnet];
+const enabledChains =
+  configuredNetwork.id === 1
+    ? [configuredNetwork]
+    : [
+        configuredNetwork,
+        chains.arbitrumGoerli,
+        chains.gnosisChiado,
+        chains.polygonZkEvmTestnet,
+        chains.scrollSepolia,
+        chains.goerli,
+        chains.sepolia,
+        chains.baseGoerli,
+      ];
 
 /**
  * Chains for the app
@@ -50,7 +62,7 @@ const wallets = [
   walletConnectWallet(walletsOptions),
   ledgerWallet(walletsOptions),
   braveWallet(walletsOptions),
-  coinbaseWallet({ ...walletsOptions, appName: "scaffold-eth-2" }),
+  coinbaseWallet({ ...walletsOptions, appName: "Health-DID" }),
   rainbowWallet(walletsOptions),
   ...(configuredNetwork.id === chains.hardhat.id || !onlyLocalBurnerWallet
     ? [burnerWalletConfig({ chains: [appChains.chains[0]] })]

@@ -4,7 +4,6 @@ import { getFilesFromPath } from "web3.storage";
 
 const token: string = process.env.NEXT_PUBLIC_WEB3STORAGE_TOKEN as string;
 function getAccessToken() {
-  
   return token.toString();
 }
 
