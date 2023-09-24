@@ -114,9 +114,9 @@ function CreateProfile() {
         <form onSubmit={handleSubmit} className="w-full flex flex-col gap-[30px]">
           <div className="flex flex-wrap gap-[40px]">
             <Forms
-              labelName="FirstName"
+              labelName="First Name"
               inputType="text"
-              placeholder="Enter FirstName"
+              placeholder="First Name"
               handleChange={e => handleStateChange("name", "given", 0)(e)}
               value={patient?.name?.[0].given}
             />
@@ -124,11 +124,72 @@ function CreateProfile() {
             <Forms
               labelName="Last Name"
               inputType="text"
-              placeholder="Enter Last Name"
+              placeholder="Last Name"
               handleChange={e => handleStateChange("name", "family", 0)(e)}
               value={patient?.name?.[0].family}
             />
           </div>
+          <div className="flex flex-wrap gap-[40px]">
+            <Forms
+              labelName="use"
+              inputType="text"
+              placeholder="usual"
+              handleChange={e => handleStateChange("identifier", "use", 0)(e)}
+              value={patient?.identifier?.[0].use}
+            />
+
+            <Forms
+              labelName="Last Name"
+              inputType="text"
+              placeholder="Last Name"
+              handleChange={e => handleStateChange("name", "family", 0)(e)}
+              value={patient?.name?.[0].family}
+            />
+          </div>
+
+          <Forms
+            labelName="Last Name"
+            inputType="text"
+            placeholder="Last Name"
+            handleChange={e => handleStateChange("name", "family", 0)(e)}
+            value={patient?.name?.[0].family}
+          />
+          <Forms
+            labelName="Last Name"
+            inputType="text"
+            placeholder="Last Name"
+            handleChange={e => handleStateChange("name", "family", 0)(e)}
+            value={patient?.name?.[0].family}
+          />
+          <Forms
+            labelName="Last Name"
+            inputType="text"
+            placeholder="Last Name"
+            handleChange={e => handleStateChange("name", "family", 0)(e)}
+            value={patient?.name?.[0].family}
+          />
+          <Forms
+            labelName="Last Name"
+            inputType="text"
+            placeholder="Last Name"
+            handleChange={e => handleStateChange("name", "family", 0)(e)}
+            value={patient?.name?.[0].family}
+          />
+          <Forms
+            labelName="Last Name"
+            inputType="text"
+            placeholder="Last Name"
+            handleChange={e => handleStateChange("name", "family", 0)(e)}
+            value={patient?.name?.[0].family}
+          />
+          <Forms
+            labelName="Last Name"
+            inputType="text"
+            placeholder="Last Name"
+            handleChange={e => handleStateChange("name", "family", 0)(e)}
+            value={patient?.name?.[0].family}
+          />
+
 
           {/* <div>
             <p className="font-epilogue font-medium text-[14px] leading-[22px] text-[#808191] mb-[10px]">
