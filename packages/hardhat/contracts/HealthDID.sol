@@ -58,21 +58,36 @@ contract HealthDIDRegistry {
         return true;
     }
 
-    function addDelegateAddress(address _peerAddress, string memory _healthDid) public {
+    function addDelegateAddress(address _peerAddress, string memory _healthDid) public returns (bool) {
         require(didOwnerAddressRegistry[_healthDid] != address(0), "DID doesn't exists");
         require(msg.sender == didOwnerAddressRegistry[_healthDid], "You're not the owner of this DID");
         require(resolveChainId(_healthDid) == getChainID(), "Incorrect Chain Id in DID");
 
         delegateAddresses[_peerAddress][_healthDid] = true;
+
+        return true;
     }
 
-    function removeDelegateAddress(address _peerAddress, string memory _healthDid) public {
+    function removeDelegateAddress(address _peerAddress, string memory _healthDid) public returns (bool) {
         require(didOwnerAddressRegistry[_healthDid] != address(0), "DID doesn't exists");
         require(msg.sender == didOwnerAddressRegistry[_healthDid], "You're not the owner of this DID");
         require(resolveChainId(_healthDid) == getChainID(), "Incorrect Chain Id in DID");
         require(delegateAddresses[_peerAddress][_healthDid] == true, "This address isn't a delegate Address");
 
         delegateAddresses[_peerAddress][_healthDid] = false;
+
+        return true;
+    }
+
+    function transferOwnership(address _newAddress, string memory _healthDid) public returns (bool) {
+        require(didOwnerAddressRegistry[_healthDid] != address(0), "DID doesn't exists");
+        require(msg.sender == didOwnerAddressRegistry[_healthDid], "You're not the owner of this DID");
+        require(resolveChainId(_healthDid) == getChainID(), "Incorrect Chain Id in DID");
+        require(_newAddress != msg.sender, "Cannot transfer ownership to existing owner");
+
+        addressDidMapping[msg.sender].owner = _newAddress;
+
+        return true;
     }
 
     function resolveChainId(string memory did) public pure returns (uint256) {
