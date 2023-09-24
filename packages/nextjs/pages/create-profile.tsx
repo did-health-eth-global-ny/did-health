@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useEffect } from "react";
 import { useState } from "react";
 import Button from "../components/Button";
@@ -105,6 +106,51 @@ function CreateProfile() {
   //   };
   //   parseData();
   // }, [bundle]);
+=======
+import React from "react";
+import { useState } from "react";
+import Button from "../components/Button";
+import Forms from "../components/Forms";
+
+function CreateProfile() {
+  const [formState, setFormState] = useState({
+    FirstName: "",
+    LastName: "",
+    Gender: "",
+    Language: "",
+    Telecom: "",
+    TelecomValue: "",
+    Links: [""],
+  });
+
+  const handleChange = (fieldName: string, e: any) => {
+    setFormState({
+      ...formState,
+      [fieldName]: e.target.value,
+    });
+  };
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    console.log(formState);
+  };
+  const addLink = () => {
+    setFormState((prevState: any) => ({
+      ...prevState,
+      Links: [...prevState.Links, ""],
+    }));
+  };
+
+  const removeLink = (index: number) => {
+    const updatedLinks = formState.Links.filter((_, i) => i !== index);
+    setFormState(prevState => ({ ...prevState, Links: updatedLinks }));
+  };
+
+  const updateLink = (index: number, value: string) => {
+    const updatedLinks: any = [...formState.Links];
+    updatedLinks[index] = value;
+    setFormState(prevState => ({ ...prevState, Links: updatedLinks }));
+  };
+>>>>>>> 4faeb783b87e7faf75eb8f39cc95a573a7df8247
 
   return (
     <div className="flex items-center justify-center p-12">
@@ -117,20 +163,34 @@ function CreateProfile() {
               labelName="FirstName"
               inputType="text"
               placeholder="Enter FirstName"
+<<<<<<< HEAD
               handleChange={e => handleStateChange("name", "given", 0)(e)}
               value={patient?.name?.[0].given}
+=======
+              handleChange={e => handleChange("", e)}
+              value={formState.FirstName}
+>>>>>>> 4faeb783b87e7faf75eb8f39cc95a573a7df8247
             />
 
             <Forms
               labelName="Last Name"
               inputType="text"
               placeholder="Enter Last Name"
+<<<<<<< HEAD
               handleChange={e => handleStateChange("name", "family", 0)(e)}
               value={patient?.name?.[0].family}
             />
           </div>
 
           {/* <div>
+=======
+              handleChange={e => handleChange("", e)}
+              value={formState.LastName}
+            />
+          </div>
+
+          <div>
+>>>>>>> 4faeb783b87e7faf75eb8f39cc95a573a7df8247
             <p className="font-epilogue font-medium text-[14px] leading-[22px] text-[#808191] mb-[10px]">
               Add related links
             </p>
@@ -156,6 +216,7 @@ function CreateProfile() {
             <Button btnType="button" title="Add Link" styles="bg-[#3a3a43] text-white" handleClick={addLink}>
               Add Link
             </Button>
+<<<<<<< HEAD
           </div> */}
           {/* 
           <div>
@@ -169,6 +230,10 @@ function CreateProfile() {
             )} 
           </div>
 						*/}
+=======
+          </div>
+
+>>>>>>> 4faeb783b87e7faf75eb8f39cc95a573a7df8247
           <div className="flex justify-center items-center">
             <Button
               btnType="submit"
