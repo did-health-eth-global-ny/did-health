@@ -5,11 +5,7 @@ interface FormFieldProps {
   placeholder: string;
   inputType?: string;
   isTextArea?: boolean;
-<<<<<<< HEAD
   value: any;
-=======
-  value: string | number;
->>>>>>> 4faeb783b87e7faf75eb8f39cc95a573a7df8247
   row?: number;
   handleChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   handleTextChange?: (e: ChangeEvent<HTMLTextAreaElement>) => void;
@@ -59,8 +55,4 @@ const Forms: React.FC<FormFieldProps> = ({
   );
 };
 
-<<<<<<< HEAD
 export default Forms;
-=======
-export default Forms;
->>>>>>> 4faeb783b87e7faf75eb8f39cc95a573a7df8247
