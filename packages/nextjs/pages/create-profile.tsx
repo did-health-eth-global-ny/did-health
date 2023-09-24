@@ -9,6 +9,7 @@ import { makeStorageClient } from "../hooks/useIpfs";
 import { FHIRPatient } from "../types/abitype/fhir";
 import createFHIRPatient from "../utils/scaffold-eth/createJson";
 import { v4 } from "uuid";
+import { useAccount, useNetwork } from "wagmi";
 
 const IdentifierOption = [
   { label: "license", value: "license" },
@@ -26,8 +27,18 @@ const TelecomSystemOption = [
   { label: "email", value: "email" },
 ];
 function CreateProfile() {
+  const account = useAccount();
+  console.log("account", account);
+  const { chain, chains } = useNetwork();
+  console.log("chain", chain);
+  console.log("chains", chains);
+
+  const [hasCreatedProfile, setHasCreatedProfile] = useState(false);
+
   const [patient, setPatient] = useState<FHIRPatient | null>(
     createFHIRPatient(
+      "0",
+      "",
       "Smith",
       "John",
       ["123 Main St"],
@@ -91,8 +102,11 @@ function CreateProfile() {
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    console.log("patient:", patient);
+
+    const uuid = v4();
     const PatientJson = createFHIRPatient(
+      uuid,
+      "did:health:" + chain?.id + patient?.did ?? "",
       patient?.name?.[0].family ?? "",
       patient?.name?.[0].given ?? "",
       patient?.address?.[0].line?.map(line => line ?? "") ?? [""],
@@ -107,15 +121,22 @@ function CreateProfile() {
       patient?.gender ?? "unknown", // Add null check for patient?.gender
       patient?.birthDate ?? "",
     );
-    downloadJson(PatientJson, "patient.json");
+
+    downloadJson(PatientJson, uuid);
     const blob = new Blob([JSON.stringify(PatientJson)], { type: "application/json" });
-    const files = [new File([blob], "plain-utf8.txt)"), new File([blob], "patient.json")];
+    const files = [new File([blob], "plain-utf8.txt)"), new File([blob], "Patient/" + uuid)];
     console.log("files:", files);
 
     const client = makeStorageClient();
     const cid = await client.put(files);
+
+    const uri = "https://" + cid + ".ipfs.dweb.link/Patient/" + uuid;
     console.log("stored files with cid:", cid);
-    return cid;
+    console.log("uri:", uri);
+
+    setHasCreatedProfile(true);
+
+    return uri;
   };
 
   return (
@@ -124,6 +145,17 @@ function CreateProfile() {
         {/* {isLoading && <Loader />} */}
         <p className="font-bold font-epilogue text-[32px]">Create Profile</p>
         <form onSubmit={handleSubmit} className="w-full flex flex-col gap-[30px]">
+          <div>
+            <Forms
+              labelName="DID Name"
+              inputType="text"
+              placeholder="Type your DID Name whatever you want"
+              handleChange={e => handleStateChange("did")(e)}
+              value={patient?.did}
+            />
+            <p>{"Your Health did will be did:health:" + chain?.id + patient?.did}</p>
+          </div>
+
           <div className="flex flex-wrap gap-[40px]">
             <Forms
               labelName="First Name"
@@ -181,14 +213,25 @@ function CreateProfile() {
             />
           </div>
           <div className="flex justify-center items-center">
-            <Button
-              btnType="submit"
-              title="Create a Profile"
-              styles="bg-[#3a3a43] text-white"
-              handleClick={() => {
-                handleSubmit;
-              }}
-            />
+            {!hasCreatedProfile ? (
+              <Button
+                btnType="submit"
+                title="Create a Profile"
+                styles="bg-[#3a3a43] text-white"
+                handleClick={() => {
+                  handleSubmit;
+                }}
+              />
+            ) : (
+              <Button
+                btnType="submit"
+                title="Register DID"
+                styles="bg-[#3a3a43] text-white"
+                handleClick={() => {
+                  handleSubmit;
+                }}
+              />
+            )}
           </div>
         </form>
       </div>
