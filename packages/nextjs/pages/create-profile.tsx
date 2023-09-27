@@ -1,11 +1,13 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
+import Image from "next/image";
 import Button from "../components/Button";
 import Forms from "../components/Forms";
 import SelectForms from "../components/SelectForm";
 import { useScaffoldContractWrite } from "../hooks/scaffold-eth";
 import { makeStorageClient } from "../hooks/useIpfs";
 import { FHIRPatient } from "../types/abitype/fhir";
+import { generateQRCode } from "../utils/QRcodeGeneration";
 import createFHIRPatient from "../utils/scaffold-eth/createJson";
 import { v4 } from "uuid";
 import { useAccount, useNetwork } from "wagmi";
@@ -27,6 +29,7 @@ const TelecomSystemOption = [
 ];
 function CreateProfile() {
   const account = useAccount();
+  const [qrcode, setQrcode] = useState<any>("");
   console.log("account", account);
   const { chain, chains } = useNetwork();
   const chainId = chain?.id;
@@ -136,11 +139,13 @@ function CreateProfile() {
     const cid = await client.put(files);
 
     const uri = "https://" + cid + ".ipfs.dweb.link/Patient/" + uuid;
+    const qrcode = await generateQRCode(uri);
     console.log("stored files with cid:", cid);
     console.log("uri:", uri);
-
     setHasCreatedProfile(true);
     setUri(uri);
+    setQrcode(qrcode);
+
     return uri;
   };
 
@@ -251,6 +256,7 @@ function CreateProfile() {
               />
             )}
           </div>
+          {qrcode && <Image src={qrcode} alt="QR Code" width={300} height={300} />}
         </form>
       </div>
     </div>

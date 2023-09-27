@@ -31,6 +31,7 @@ const enabledChains =
         chains.goerli,
         chains.sepolia,
         chains.baseGoerli,
+        chains.hardhat,
       ];
 
 /**
