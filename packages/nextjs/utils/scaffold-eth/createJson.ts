@@ -2,7 +2,6 @@ import { FHIRPatient } from "../../types/abitype/fhir";
 
 const createFHIRPatient = (
   id: string,
-  did: string,
   familyName: string,
   givenName: string,
   addressLine: string[],
@@ -20,9 +19,8 @@ const createFHIRPatient = (
 ): FHIRPatient => {
   return {
     id: id,
-    did: did,
     resourceType: "Patient",
-    identifier: [{ value: identifierValue }],
+    identifier: [{system: "https://www.w3.org/ns/did", value: identifierValue }],
     name: [{ family: familyName, given: givenName }],
     telecom: [
       { system: "email", value: email },

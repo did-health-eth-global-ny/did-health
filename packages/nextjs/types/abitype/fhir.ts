@@ -1,6 +1,5 @@
 export type FHIRPatient = {
   id: string;
-  did: string;
   resourceType: "Patient";
   identifier?: {
     use?: "usual" | "official" | "temp" | "secondary" | string;
