@@ -20,6 +20,9 @@ License
 git clone https://github.com/your-org/did-health.git
 cd did-health
 yarn install
+yarn chain
+yarn deploy
+yarn start
 ```
 ## Usage
 Detailed usage instructions, API documentation, and examples can be found in the docs directory.
