@@ -23,7 +23,7 @@ const PatientForm: React.FC = () => {
     birthDate: '',
     telecom: [{ use: 'home'}, {system: 'phone', value: ''}, {system: 'email', value: ''}],
     address: [{ line: [], city: '', state: '', postalCode: '', country: '' }],
-    identifier: [{system: 'https://www.w3.org/ns/did"', value: ''},{type: {coding: [{code: '', system: 'http://terminology.hl7.org/CodeSystem/v2-0203'}]}}],
+    identifier: [{system: 'https://www.w3.org/ns/did', value: ''},{type: {coding: [{code: '', system: 'http://terminology.hl7.org/CodeSystem/v2-0203'}]}}],
   });
 
   const account = useAccount();
@@ -65,18 +65,18 @@ const PatientForm: React.FC = () => {
       for (let i = 0; i < keys.length; i++) {
         if (i === keys.length - 1) {
           // Handle the last level of nesting
-          if (Array.isArray(current[keys[i]])) {
+          if (Array.isArray((current as any)[keys[i]])) {
             // If it's an array, create a new array with the updated value
-            current[keys[i]] = [value];
+            (current as any)[keys[i]] = [value];
           } else {
-            current[keys[i]] = value;
+            (current as any)[keys[i]] = value;
           }
         } else {
           // Create nested objects if they don't exist
-          if (!current[keys[i]]) {
-            current[keys[i]] = Array.isArray(keys[i + 1]) ? [] : {};
+          if (!(current as any)[keys[i]]) {
+            (current as any)[keys[i]] = Array.isArray(keys[i + 1]) ? [] : {};
           }
-          current = current[keys[i]];
+          current = (current as any)[keys[i]];
         }
       }
   
