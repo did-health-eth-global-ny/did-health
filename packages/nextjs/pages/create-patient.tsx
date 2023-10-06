@@ -91,7 +91,9 @@ const PatientForm: React.FC = () => {
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
-    patient.identifier[0].value = did;
+    if (patient.identifier && patient.identifier[0]) {
+      patient.identifier[0].value = did;
+    }
     const uuid = v4();
     patient.id = uuid;
 
@@ -135,7 +137,7 @@ const PatientForm: React.FC = () => {
     contractName: "HealthDIDRegistry",
     functionName: "registerDID",
     // args: [chainId + (patient?.did ?? ""), uri],
-    args: [chainIdString + (patient?.identifier[0].value ?? ""), uri],
+    args: [chainIdString + (patient?.identifier?.[0].value ?? ""), uri],
     blockConfirmations: 10,
     onBlockConfirmation: txnReceipt => {
       console.log("📦 Transaction blockHash", txnReceipt.blockHash);
@@ -169,7 +171,7 @@ const PatientForm: React.FC = () => {
         <input
           type="text"
           name="name.0.given.0"
-          value={patient.name[0].given[0]}
+          value={patient.name?.[0].given?.[0]}
           onChange={handleInputChange}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
@@ -181,7 +183,7 @@ const PatientForm: React.FC = () => {
         <input
           type="text"
           name="name.0.family"
-          value={patient.name[0].family}
+          value={patient.name?.[0].family}
           onChange={handleInputChange}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
@@ -312,7 +314,7 @@ const PatientForm: React.FC = () => {
         </label>
         <select
           name="identifier.1.type.coding.0.code"
-          value={patient.identifier[1].type?.coding[0].code || ''}
+          value={patient.identifier?.[1].type?.coding?.[0].code || ''}
           onChange={handleInputChange}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         >
