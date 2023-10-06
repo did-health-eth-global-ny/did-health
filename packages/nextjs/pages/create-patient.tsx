@@ -328,8 +328,8 @@ const PatientForm: React.FC = () => {
       </div>
       <div> <input
           type="text"
-          name="identifier.1._value"
-          value={patient.identifier?.[1]._value|| ''}
+          name="identifier.1.value"
+          value={patient.identifier?.[1].value|| ''}
           onChange={handleInputChange}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         /></div>
