@@ -40,6 +40,7 @@
     "@headlessui/react": "^1.7.17",
     "@mui/material": "^5.14.10",
     "@types/fhir": "^0.0.37",
+    "did-resolver": "^4.1.0",
     "react-icons": "^4.11.0",
     "react-qr-svg": "^2.4.0"
   }
