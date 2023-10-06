@@ -1,4 +1,3 @@
-/* eslint-disable */
 ///<reference path="../../../node_modules/@types/fhir/index.d.ts"/>
 import React, { useState, useEffect } from 'react';
 import { useScaffoldContractWrite } from "../hooks/scaffold-eth";
@@ -143,9 +142,6 @@ const PatientForm: React.FC = () => {
       console.log("📦 Transaction blockHash", txnReceipt.blockHash);
     },
   });
-  //console.log("chainId", chainId);
-  console.log("patient?.did", did);
-  //console.log("uri", uri);
   
   return (
     <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-lg">

@@ -10242,6 +10242,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"did-resolver@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "did-resolver@npm:4.1.0"
+  checksum: 0b0f6c3502f877c2a3cb264befc2718b12efa8e7d39ef255b00cd79f8fe12303257ac8e84a030a49599415bce87192fef29388d9f695776d331d0139848d3d4c
+  languageName: node
+  linkType: hard
+
 "didyoumean@npm:^1.2.2":
   version: 1.2.2
   resolution: "didyoumean@npm:1.2.2"
@@ -20758,6 +20765,7 @@ __metadata:
     "@headlessui/react": ^1.7.17
     "@mui/material": ^5.14.10
     "@types/fhir": ^0.0.37
+    did-resolver: ^4.1.0
     husky: ^8.0.1
     lint-staged: ^13.0.3
     react-icons: ^4.11.0
