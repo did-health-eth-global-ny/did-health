@@ -1,45 +1,67 @@
 import { FHIRPatient } from "../../types/abitype/fhir";
 
-const createFHIRPatient = (
+export function createFHIRPatient(
   id: string,
-  did: string,
+  givenNames: string[],
   familyName: string,
-  givenName: string,
-  addressLine: string[],
+  addressLines: string[],
   city: string,
   state: string,
   postalCode: string,
   country: string,
-  email: string,
-  phone: string,
-  identifierValue: string,
-  birthsex: string,
-  gender: "male" | "female" | "other" | "unknown",
+  emails: string[],
+  phones: string[],
+  gender: string,
+  birthDate: string,
+  identifierSystems: string[],
+  identifierValues: string[]
+): FHIRPatient {
+  const identifier = identifierSystems.map((system, index) => ({
+    system,
+    value: identifierValues[index],
+  }));
 
-  birthdate: string,
-): FHIRPatient => {
-  return {
-    id: id,
-    did: did,
+  const name = [
+    {
+      given: givenNames,
+      family: familyName,
+    },
+  ];
+
+  const address = [
+    {
+      line: addressLines,
+      city,
+      state,
+      postalCode,
+      country,
+    },
+  ];
+
+  const telecom = [
+    ...emails.map(email => ({
+      system: "email",
+      value: email,
+    })),
+    ...phones.map(phone => ({
+      system: "phone",
+      value: phone,
+    })),
+  ];
+
+  const patient: FHIRPatient = {
     resourceType: "Patient",
-    identifier: [{ value: identifierValue }],
-    name: [{ family: familyName, given: givenName }],
-    telecom: [
-      { system: "email", value: email },
-      { system: "phone", value: phone },
-    ],
-    address: [
-      {
-        line: addressLine,
-        city: city,
-        state: state,
-        postalCode: postalCode,
-        country: country,
-      },
-    ],
-    birthDate: birthdate,
-    gender: gender,
-    extension: [{ url: "http://example.org/birthsex", valueString: birthsex }],
+    id,
+    identifier,
+    name,
+    address,
+    telecom,
+    gender,
+    birthDate,
   };
-};
+
+  return patient;
+}
+
+
 export default createFHIRPatient;
