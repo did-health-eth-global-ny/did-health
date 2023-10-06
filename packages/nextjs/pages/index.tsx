@@ -33,16 +33,17 @@ const Home: NextPage = () => {
             <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
               W3C-compliant Decentralized Identifier (DID) solution
             </code>{" "}
-            tailored for the healthcare sector.
+            tailored for the healthcare sector.  DID:Health helps you manage your identity in the healthcare system and provides a bridge to your personal medical records.
+            Your did:health identifier is interoperable with any health system that support Fast Healthcare Interoperability Resources.
           </p>
         </div>
 
         <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
           <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
-            <Link href="/create-profile">
+            <Link href="/create-patient">
               <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl shadow-lg">
                 <BugAntIcon className="h-8 w-8 fill-secondary" />
-                <p>1. Connect/Create wallet and create profile</p>
+                <p>1. Connect/Create wallet and create Your Patient Profile</p>
               </div>
             </Link>
             <Link href="/">
