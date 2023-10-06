@@ -4,6 +4,7 @@ import { useScaffoldContractWrite } from "../hooks/scaffold-eth";
 import { makeStorageClient } from "../hooks/useIpfs";
 import { useAccount, useNetwork } from "wagmi";
 import { generateQRCode } from "../utils/QRcodeGeneration";
+import Button from "../components/Button";
 import { v4 } from "uuid";
 
 import Patient = fhir4.Patient;
@@ -88,19 +89,26 @@ const PatientForm: React.FC = () => {
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
-    const uuid = v4();
     patient.identifier[0].value = did;
+    const uuid = v4();
+    patient.id = uuid;
 
     downloadJson(patient, uuid);
     const blob = new Blob([JSON.stringify(patient)], { type: "application/json" });
     const files = [new File([blob], "plain-utf8.txt)"), new File([blob], "Patient/" + uuid)];
-    console.log("files:", files);
+
 
     const client = makeStorageClient();
     const cid = await client.put(files);
-
+    console.log(cid)
     const uri = "https://" + cid + ".ipfs.dweb.link/Patient/" + uuid;
-    const qrcode = await generateQRCode(uri);
+    console.log(uri)
+    //create new did registry entry
+
+    
+    //resolve diddocument
+    const diddocument = ''
+    const qrcode = await generateQRCode(diddocument);
     console.log("stored files with cid:", cid);
     console.log("uri:", uri);
     setHasCreatedProfile(true);
@@ -132,7 +140,7 @@ const PatientForm: React.FC = () => {
     },
   });
   //console.log("chainId", chainId);
-  console.log("patient?.did", did;
+  console.log("patient?.did", did);
   //console.log("uri", uri);
   
   return (
@@ -322,12 +330,28 @@ const PatientForm: React.FC = () => {
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         /></div>
       </div>
-      <button
-        type="submit"
-        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-      >
-        Submit
-      </button>
+      <div className="flex justify-center items-center">
+            {!hasCreatedProfile && !uri ? (
+              <Button
+                btnType="submit"
+                title="Create a Profile"
+                styles="bg-[#3a3a43] text-white"
+                handleClick={() => {
+                  handleSubmit;
+                }}
+              />
+            ) : (
+              <Button
+                btnType="submit"
+                title="Register DID"
+                styles="bg-[#3a3a43] text-white"
+                handleClick={() => {
+                  writeAsync();
+                }}
+              />
+            )}
+          </div>
+          {qrcode && <Image src={qrcode} alt="QR Code" width={300} height={300} />}
     </form>
   );
 };
