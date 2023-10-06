@@ -1,6 +1,6 @@
 //Based on https://codesandbox.io/s/generate-qrcode-with-json-data-forked-p9f823?file=/index.js:0-786
 import React from "react";
-import { data } from "../components/qrValueProofRequestExample";
+const data =  "./qrValueProofRequestExample.json";
 import { QRCode } from "react-qr-svg";
 
 const styles = {
