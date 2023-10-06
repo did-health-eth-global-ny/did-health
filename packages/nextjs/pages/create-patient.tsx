@@ -5,6 +5,7 @@ import { makeStorageClient } from "../hooks/useIpfs";
 import { useAccount, useNetwork } from "wagmi";
 import { generateQRCode } from "../utils/QRcodeGeneration";
 import Button from "../components/Button";
+import Image from "next/image";
 import { v4 } from "uuid";
 
 import Patient = fhir4.Patient;
