@@ -1,3 +1,4 @@
+/* eslint-disable */
 ///<reference path="../../../node_modules/@types/fhir/index.d.ts"/>
 import React, { useState, useEffect } from 'react';
 import { useScaffoldContractWrite } from "../hooks/scaffold-eth";
